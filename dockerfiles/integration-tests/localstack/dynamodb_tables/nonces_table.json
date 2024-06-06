@@ -1,0 +1,27 @@
+{
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "address",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "chain_id",
+      "AttributeType": "N"
+    }
+  ],
+  "TableName": "nonces",
+  "KeySchema": [
+    {
+      "AttributeName": "address",
+      "KeyType": "HASH"
+    },
+    {
+      "AttributeName": "chain_id",
+      "KeyType": "RANGE"
+    }
+  ],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 3,
+    "WriteCapacityUnits": 3
+  }
+}

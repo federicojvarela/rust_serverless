@@ -1,0 +1,15 @@
+{
+  "priority": 1,
+  "request": {
+    "urlPattern": "/([a-zA-Z0-9]+)/policy/([a-zA-Z0-9_-]+)",
+    "method": "GET"
+  },
+  "response": {
+    "status" : 200,
+    "jsonBody": {
+        "serialized_policy": "eyJkb21haW5fYXB==",
+        "policy_name": "some_policy",
+        "display_name": "Default Tenant AE Solo Approver Policy"
+    }
+  }
+}

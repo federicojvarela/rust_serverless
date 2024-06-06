@@ -1,0 +1,105 @@
+FROM public.ecr.aws/lambda/provided:al2 as base
+
+# Install needed dependencies
+RUN yum install -y \
+    pkg-config \
+    perl-IPC-Cmd \
+    openssl-devel \
+    python3-pip \
+    python3 \
+    ca-certificates \
+    tzdata \
+    curl \
+    wget \
+    build-essential \
+    socat \
+    git \
+    gcc \
+    nc \
+    make \
+    unzip
+
+# Install rust
+ENV CARGO_HOME=/opt/cargo
+ENV RUSTUP_HOME=/opt/rustup
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+ENV PATH="/opt/cargo/bin:$PATH"
+RUN rustup install 1.75
+
+# Install cargo lambda
+RUN pip3 install cargo-lambda
+
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+RUN unzip awscliv2.zip && ./aws/install
+
+# Install cargo utilities
+RUN rustup self update \
+    && rustup component add rustfmt clippy \
+    && cargo install cargo-chef --locked \
+    && cargo install cargo2junit \
+    && cargo install cargo-audit
+
+FROM base as dependencies
+
+ARG GH_TOKEN
+
+WORKDIR /build
+
+RUN git config --global url."https://$GH_TOKEN@github.com/".insteadOf "ssh://git@github.com/"
+
+# Set the directory for the cached dependencies
+ENV CARGO_TARGET_DIR=/build/cached_deps
+ENV CARGO_LAMBDA_COMPILER=cargo
+ENV CARGO_HOME=/opt/cargo
+ENV RUSTUP_HOME=/opt/rustup
+
+RUN rustup default 1.75
+
+COPY Cargo.toml ./
+COPY Cargo.lock ./
+# This is not the best, but for some reason if we copy the whole subcrate the cache is destroyed
+RUN mkdir -p common/src
+COPY ./common/Cargo.toml ./common/
+RUN touch ./common/src/lib.rs
+
+RUN mkdir -p model/src
+COPY ./model/Cargo.toml ./model/
+RUN touch ./model/src/lib.rs
+
+RUN mkdir -p repositories/src
+COPY ./repositories/Cargo.toml ./repositories/
+RUN touch ./repositories/src/lib.rs
+
+##
+# General Cache
+##
+
+# Cache dependencies with cargo chef
+RUN cargo chef prepare --recipe-path recipe.json \
+    && cargo chef cook --all-targets --tests --recipe-path recipe.json \
+    && cargo chef cook --all-targets --clippy --recipe-path recipe.json \
+    && cargo chef cook --all-targets --recipe-path recipe.json
+
+# Cache all dependencies of cargo lambda with dummy binaries created by cargo chef
+RUN cargo build \
+    && cargo lambda build --release
+
+##
+# Cache for E2E
+##
+ENV CARGO_TARGET_DIR=/build/cached_deps_e2e
+
+RUN mkdir -p e2e/src
+COPY ./e2e/Cargo.toml ./e2e/
+COPY ./e2e/Cargo.lock ./e2e/
+RUN touch ./e2e/src/lib.rs
+
+RUN pushd ./e2e \
+    && cargo chef prepare --recipe-path recipe.json \
+    && cargo chef cook --all-targets --tests --recipe-path recipe.json \
+    && popd
+
+# Restore env vaiable for general cache
+ENV CARGO_TARGET_DIR=/build/cached_deps
+WORKDIR /mpc-wallet
+ENTRYPOINT ["/bin/bash"]

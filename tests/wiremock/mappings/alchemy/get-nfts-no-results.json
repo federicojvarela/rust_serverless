@@ -1,0 +1,28 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/getNFTs",
+    "queryParameters": {
+      "owner": {
+        "equalTo": "0x1c965d1241d0040a3fc2a030baeeefb35c155a4e"
+      },
+      "contractAddresses[]": {
+        "equalTo": "0x763c396673f9c391dce3361a9a71c8e161388000"
+      },
+      "withMetadata": {
+        "equalTo": "true"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "ownedNfts": []
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
+
+

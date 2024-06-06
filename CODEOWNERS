@@ -1,0 +1,10 @@
+# These owners will be the default owners for everything in
+# the repo. Unless a later match takes precedence,
+* @flarocca @dragoforte @sebaleoperez
+
+## code changes will send PR to following users
+* @nicoan-ft @fcurdi-mb @EllieSager-Forte @federicojvarela @rBordignon @vinicius-forte @mdallago-ff @sebaleoperez @forte-ereyno
+
+# Include devops as code owners for changes related to infrastructure and pipeline
+
+/infrastructure/ @fortelabsinc/ana-devops @flarocca @dragoforte @sebaleoperez

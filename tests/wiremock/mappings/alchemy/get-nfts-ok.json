@@ -1,0 +1,95 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/getNFTs",
+    "queryParameters": {
+      "owner": {
+        "equalTo": "0x1c965d1241d0040a3fc2a030baeeefb35c155a4e"
+      },
+      "contractAddresses[]": {
+        "equalTo": "0x000386e3f7559d9b6a2f5c46b4ad1a9587d59dc3"
+      },
+      "withMetadata": {
+        "equalTo": "true"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "ownedNfts": [
+        {
+          "contract": {
+            "address": "0x000386e3f7559d9b6a2f5c46b4ad1a9587d59dc3"
+          },
+          "id": {
+            "tokenId": "0x0000000000000000000000000000000000000000000000000000000000000001",
+            "tokenMetadata": {
+              "tokenType": "ERC721"
+            }
+          },
+          "balance": "26",
+          "title": "Ape#231",
+          "description": "A special ape",
+          "tokenUri": {
+            "gateway": "http://api.nikeapenft.xyz/ipfs/1",
+            "raw": "http://api.nikeapenft.xyz/ipfs/1"
+          },
+          "metadata": {
+            "image": "http://some.image",
+            "metadata": [],
+            "attributes": [
+              {
+                "value": "some value",
+                "trait_type": "some trait type"
+              }
+            ]
+          },
+          "contractMetadata": {
+            "name": "Bored Ape Nike Club",
+            "symbol": "BANC",
+            "tokenType": "ERC721"
+          }
+        }, {
+          "contract": {
+            "address": "0x000386e3f7559d9b6a2f5c46b4ad1a9587d59dc3"
+          },
+          "id": {
+            "tokenId": "0x0000000000000000000000000000000000000000000000000000000000000001",
+            "tokenMetadata": {
+              "tokenType": "ERC721"
+            }
+          },
+          "balance": "1",
+          "title": "Ape#240",
+          "description": "Normal Ape",
+          "tokenUri": {
+            "gateway": "http://api.nikeapenft.xyz/ipfs/1",
+            "raw": "http://api.nikeapenft.xyz/ipfs/1"
+          },
+          "metadata": {
+            "image": "http://some.image",
+            "metadata": [],
+            "attributes": [
+              {
+                "value": "some value",
+                "trait_type": "some trait type"
+              }
+            ]
+          },
+          "contractMetadata": {
+            "name": "Bored Ape Nike Club",
+            "symbol": "BANC",
+            "tokenType": "ERC721"
+          }
+        }
+      ],
+      "pageKey": "MHgwMDAzODZlM2Y3NTU5ZDliNmEyZjVjNDZiNGF=="
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
+
+

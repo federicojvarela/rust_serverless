@@ -1,0 +1,30 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPath": "/",
+    "bodyPatterns" : [{
+      "equalToJson" : {
+        "jsonrpc" : "2.0",
+        "id": "1",
+        "method" : "alchemy_getTokenMetadata",
+        "params" : ["0xdac17f958d2ee523a2206206994597c13d123ec7"]
+      }
+    }]
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "error": {
+        "code": -32602,
+        "message": "Invalid params: expected a valid token contract address."
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
+
+

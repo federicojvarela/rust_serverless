@@ -1,0 +1,35 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPath": "/",
+    "bodyPatterns" : [{
+      "equalToJson" : {
+        "jsonrpc" : "2.0",
+        "id": "1",
+        "method" : "alchemy_getTokenBalances",
+        "params" : ["0x1c965d1241d0040a3fc2a030baeeefb35c155a4e", ["0xdac17f958d2ee523a2206206994597c13d831ec7"]]
+      }
+    }]
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "address": "0x1c965d1241d0040a3fc2a030baeeefb35c155a4e",
+        "tokenBalances": [
+          {
+            "contractAddress": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+            "tokenBalance": "0x0000000000000000000000000000000000000000000000487a9a304539440000"
+          }
+        ]
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
+
+

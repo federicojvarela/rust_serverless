@@ -1,0 +1,32 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPath": "/",
+    "bodyPatterns" : [{
+      "equalToJson" : {
+        "jsonrpc" : "2.0",
+        "id": "1",
+        "method" : "alchemy_getTokenMetadata",
+        "params" : ["0xdac17f958d2ee523a2206206994597c13d831ec7"]
+      }
+    }]
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "decimals": 6,
+        "logo": "https://static.alchemyapi.io/images/assets/3408.png",
+        "name": "USD Coin",
+        "symbol": "USDC"
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
+
+

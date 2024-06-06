@@ -1,0 +1,268 @@
+[package]
+name = "mpc-signature-sm"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+ana-tools = { git = 'ssh://git@github.com/fortelabsinc/ana-tools', tag = "v0.3.0", features = [
+    "feature-flags",
+    "config-loader",
+] }
+anyhow = "1.0.69"
+aws_lambda_events = { version = "0.8.3", features = ["sqs"] }
+async-trait = "0.1.63"
+chrono = { version = "0.4.31", default-features = false, features = [
+    "clock",
+    "std",
+    "serde",
+] }
+common = { path = "common" }
+model = { path = "model" }
+repositories = { path = "repositories" }
+dotenv = "0.15.0"
+envy = "0.4.2"
+ethers = "2.0.13"
+hex = "0.4.3"
+http = "0.2.9"
+k256 = { version = "0.13.0", features = ["pem"] }
+lambda_http = "0.7"
+lambda_runtime = "0.7"
+openssl = { version = "0.10.55", features = ["vendored"] }
+rand = "0.8.5"
+reqwest = { version = "0.11.23", default-features = false, features = [
+    "json",
+    "rustls-tls",
+] }
+reqwest-middleware = "0.2.0"
+reqwest-retry = "0.3.0"
+rlp = "0.5.1"
+rusoto_secretsmanager = { version = "0.48.0" }
+rusoto_sqs = { version = "0.48.0" }
+rusoto_core = { version = "0.48.0" }
+rusoto_dynamodb = { version = "0.48.0", features = ["deserialize_structs"] }
+rusoto_stepfunctions = "0.48.0"
+rusoto_apigateway = "0.48.0"
+secp256k1 = "0.27.0"
+secrets_provider = { git = "ssh://git@github.com/fortelabsinc/secrets_provider/", tag = "2.0.0", features = [
+    "aws",
+] }
+serde = "1.0.152"
+serde_dynamo = { version = "4.2.8", features = ["rusoto_dynamodb+0_48"] }
+serde_json = "1.0.108"
+task-local-extensions = "0.1.3"
+thiserror = "1.0.38"
+tokio = { version = "1", features = ["macros"] }
+tower = "0.4.13"
+tower-service = "0.3.2"
+tracing = { version = "0.1", features = ["log"] }
+tracing-subscriber = { version = "0.3", default-features = false, features = [
+    "fmt",
+    "std",
+    "json",
+] }
+tracing-log = "0.2"
+tracing-bunyan-formatter = "0.3"
+tracing-appender = "0.2"
+uuid = { version = "1.3.0", features = ["serde", "v4"] }
+validator = { version = "0.16.0", features = ["derive"] }
+eventbridge_connector = { git = 'ssh://git@github.com/fortelabsinc/eventbridge-connector', tag = "0.1.0", features = [
+    "legacy-rusoto-aws",
+] }
+
+[dev-dependencies]
+mockall = "0.11.4"
+rstest = { version = "0.16.0", default-features = false }
+wiremock = "0.5.17"
+repositories = { path = "repositories", features = ["test_mocks"] }
+rusoto_events = "0.48.0"
+eventbridge_connector = { git = 'ssh://git@github.com/fortelabsinc/eventbridge-connector', tag = "0.1.0", features = [
+    "test-mocks",
+] }
+
+[package.metadata.lambda.env]
+AWS_REGION = "us-west-2"
+FEATURE_FLAG_IN_MEMORY_MODE = "true"
+KEY_CREATION_STATE_MACHINE_ARN = "def"
+SIGNATURE_REQUEST_RECEIVED_STATE_MACHINE_ARN = "abc"
+LAUNCHDARKLY_SDK_KEY_SECRET_NAME = "sdk-6f3ffeb5-6ca6-4b95-8628-3b94483832c7"
+RESPONSE_QUEUE_URL = "http://localstack:4566/000000000000/compliance-response"
+
+[workspace]
+exclude = ["e2e"]
+members = ["common", "model", "repositories"]
+
+[[bin]]
+name = "admin_fetch_pending_orders"
+path = "src/handlers/admin_fetch_pending_orders/main.rs"
+
+[[bin]]
+name = "admin_force_order_selection"
+path = "src/handlers/admin_force_order_selection/main.rs"
+
+[[bin]]
+name = "admin_cancel_orders"
+path = "src/handlers/admin_cancel_orders/main.rs"
+
+[[bin]]
+name = "admin_add_address_policy"
+path = "src/handlers/admin_add_address_policy/main.rs"
+
+[[bin]]
+name = "admin_update_address_nonce"
+path = "src/handlers/admin_update_address_nonce/main.rs"
+
+[[bin]]
+name = "apikey_query_authorizer"
+path = "src/handlers/apikey_query_authorizer/main.rs"
+
+[[bin]]
+name = "tx_monitor"
+path = "src/handlers/tx_monitor/main.rs"
+
+[[bin]]
+name = "chain_listener_update_order"
+path = "src/handlers/chain_listener_update_order/main.rs"
+
+[[bin]]
+name = "chain_listener_update_reorged_orders"
+path = "src/handlers/chain_listener_update_reorged_orders/main.rs"
+
+[[bin]]
+name = "fetch_ft_balance"
+path = "src/handlers/fetch_ft_balance/main.rs"
+
+[[bin]]
+name = "fetch_native_balance"
+path = "src/handlers/fetch_native_balance/main.rs"
+
+[[bin]]
+name = "fetch_nft_balance"
+path = "src/handlers/fetch_nft_balance/main.rs"
+
+[[bin]]
+name = "maestro_create_key"
+path = "src/handlers/maestro_create_key/main.rs"
+
+[[bin]]
+name = "maestro_sign_request"
+path = "src/handlers/maestro_sign_request/main.rs"
+
+[[bin]]
+name = "maestro_fetch_policy"
+path = "src/handlers/maestro_fetch_policy/main.rs"
+
+[[bin]]
+name = "mpc_create_key_order"
+path = "src/handlers/mpc_create_key_order/main.rs"
+
+[[bin]]
+name = "mpc_create_signature_order"
+path = "src/handlers/mpc_create_signature_order/main.rs"
+
+[[bin]]
+name = "mpc_default_approver"
+path = "src/handlers/mpc_default_approver/main.rs"
+
+[[bin]]
+name = "mpc_export_openapi"
+path = "src/handlers/mpc_export_openapi/main.rs"
+
+[[bin]]
+name = "mpc_fetch_nonce"
+path = "src/handlers/mpc_fetch_nonce/main.rs"
+
+[[bin]]
+name = "mpc_fetch_order"
+path = "src/handlers/mpc_fetch_order/main.rs"
+
+[[bin]]
+name = "mpc_get_historical_fees"
+path = "src/handlers/mpc_get_historical_fees/main.rs"
+
+[[bin]]
+name = "mpc_nonce_writer"
+path = "src/handlers/mpc_nonce_writer/main.rs"
+
+[[bin]]
+name = "mpc_order_selector"
+path = "src/handlers/mpc_order_selector/main.rs"
+
+[[bin]]
+name = "mpc_update_order_status"
+path = "src/handlers/mpc_update_order_status/main.rs"
+
+[[bin]]
+name = "oms_cancel_order"
+path = "src/handlers/replacement_orders/oms_cancel_order.rs"
+
+[[bin]]
+name = "oms_speedup_order"
+path = "src/handlers/replacement_orders/oms_speedup_order.rs"
+
+[[bin]]
+name = "send_transaction"
+path = "src/handlers/send_transaction/main.rs"
+
+[[bin]]
+name = "format_to_dynamodb"
+path = "src/handlers/format_to_dynamodb/main.rs"
+
+[[bin]]
+name = "format_from_dynamodb"
+path = "src/handlers/format_from_dynamodb/main.rs"
+
+[[bin]]
+name = "process_order_status_stream"
+path = "src/handlers/process_order_status_stream/main.rs"
+
+[[bin]]
+name = "gas_price_prediction"
+path = "src/handlers/gas_price_prediction/main.rs"
+
+[[bin]]
+name = "select_policy"
+path = "src/handlers/select_policy/main.rs"
+
+[[bin]]
+name = "update_order_approver_response"
+path = "src/handlers/update_order_approver_response/main.rs"
+
+[[bin]]
+name = "mpc_create_sponsored_order"
+path = "src/handlers/mpc_create_sponsored_order/main.rs"
+
+[[bin]]
+name = "mpc_transaction_bundler"
+path = "src/handlers/mpc_transaction_bundler/main.rs"
+
+[[bin]]
+name = "mpc_compute_order_state_from_tx_log"
+path = "src/handlers/mpc_compute_order_state_from_tx_log/main.rs"
+
+[[bin]]
+name = "create_policy_mapping"
+path = "src/handlers/policy_mappings/create_policy/main.rs"
+
+[[bin]]
+name = "delete_policy_mapping"
+path = "src/handlers/policy_mappings/delete_policy/main.rs"
+
+[[bin]]
+name = "fetch_all_policy_mappings"
+path = "src/handlers/policy_mappings/fetch_all_policy/main.rs"
+
+[[bin]]
+name = "fetch_policy_mapping"
+path = "src/handlers/policy_mappings/fetch_policy/main.rs"
+
+[[bin]]
+name = "update_policy_mapping"
+path = "src/handlers/policy_mappings/update_policy/main.rs"
+
+[[bin]]
+name = "create_gas_pool"
+path = "src/handlers/sponsored/gas_pool/create_gas_pool/main.rs"
+
+[[bin]]
+name = "update_gas_pool"
+path = "src/handlers/sponsored/gas_pool/update_gas_pool/main.rs"

@@ -1,0 +1,20 @@
+{
+  "priority": 1,
+  "request": {
+    "urlPattern": "/*",
+    "method": "POST",
+    "headers": {
+      "x-amz-target":  { "equalTo": "AWSStepFunctions.StartExecution" }
+    }
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+        "executionArn": "arn:aws:states:us-west-2:000000000000:execution:MockedStateMachineResponse:1234",
+        "startDate": 1695067064
+    },
+    "headers": {
+        "Content-Type": "application/json"
+    }
+  }
+}

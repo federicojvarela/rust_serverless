@@ -1,0 +1,48 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/getNFTs",
+    "queryParameters": {
+      "owner": {
+        "equalTo": "0x1c965d1241d0040a3fc2a030baeeefb35c155a4e"
+      },
+      "contractAddresses[]": {
+        "equalTo": "0x4838b106fce9647bdf1e7877bf73ce8b0bad5f97"
+      },
+      "withMetadata": {
+        "equalTo": "true"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "ownedNfts": [
+        {
+          "contract": {
+            "address": "0x4838b106fce9647bdf1e7877bf73ce8b0bad5f97"
+          },
+          "balance": "26",
+          "title": "Ape#231",
+          "description": "A special ape",
+          "metadata": {
+            "image": "http://some.image",
+            "metadata": [],
+            "attributes": [
+              {
+                "value": "some value",
+                "trait_type": "some trait type"
+              }
+            ]
+          }
+        }
+      ],
+      "pageKey": "MHgwMDAzODZlM2Y3NTU5ZDliNmEyZjVjNDZiNGF=="
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
+
+

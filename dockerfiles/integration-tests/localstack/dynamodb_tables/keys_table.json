@@ -1,0 +1,64 @@
+{
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "key_id",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "client_user_id",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "address",
+      "AttributeType": "S"
+    }
+  ],
+  "TableName": "keys",
+  "KeySchema": [
+    {
+      "AttributeName": "key_id",
+      "KeyType": "HASH"
+    }
+  ],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 3,
+    "WriteCapacityUnits": 3
+  },
+  "GlobalSecondaryIndexes": [
+    {
+      "IndexName": "ClientUserIdIndex",
+      "KeySchema": [
+        {
+          "AttributeName": "client_user_id",
+          "KeyType": "HASH"
+        }
+      ],
+      "Projection": {
+        "ProjectionType": "INCLUDE",
+        "NonKeyAttributes": [
+          "key_id"
+        ]
+      },
+      "ProvisionedThroughput": {
+        "ReadCapacityUnits": 3,
+        "WriteCapacityUnits": 3
+      }
+    },
+    {
+      "IndexName": "AddressIndex",
+      "KeySchema": [
+        {
+          "AttributeName": "address",
+          "KeyType": "HASH"
+        }
+      ],
+      "Projection": {
+        "ProjectionType": "ALL"
+      },
+      "ProvisionedThroughput": {
+        "ReadCapacityUnits": 3,
+        "WriteCapacityUnits": 3
+      }
+    }
+  ]
+}
