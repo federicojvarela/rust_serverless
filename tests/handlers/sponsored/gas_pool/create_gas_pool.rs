@@ -6,7 +6,7 @@ use serde::Deserialize;
 use serde_json::{json, Value};
 use std::str::FromStr;
 
-use ana_tools::config_loader::ConfigLoader;
+use crate::config::ConfigLoader;
 
 use model::sponsor_address_config::{SponsorAddressConfig, SponsorAddressConfigType};
 use repositories::deserialize::deserialize_from_dynamo;

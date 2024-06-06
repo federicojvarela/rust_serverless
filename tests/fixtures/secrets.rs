@@ -1,4 +1,4 @@
-use ana_tools::config_loader::ConfigLoader;
+use crate::config::ConfigLoader;
 use mpc_signature_sm::config::GlobalConfig;
 use rstest::fixture;
 use rusoto_core::Region;

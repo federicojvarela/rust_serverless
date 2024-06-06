@@ -1,10 +1,10 @@
 use crate::config::aws_client_config::AwsClientConfig;
-use ana_tools::config_loader::ConfigLoader;
+use crate::config::ConfigLoader;
 use secrets_provider::{implementations::aws::AwsSecretsProvider, SecretsProvider};
 
 /// Initializes a secrets provider with the AWS client
 pub async fn get_secrets_provider() -> impl SecretsProvider {
-    let config = ConfigLoader::load_default::<AwsClientConfig>();
+    let config = ConfigLoader::load_default::<AwsClientConfig>().await;
 
     match config.region() {
         rusoto_core::Region::Custom {

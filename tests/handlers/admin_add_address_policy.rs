@@ -1,4 +1,4 @@
-use ana_tools::config_loader::ConfigLoader;
+use crate::config::ConfigLoader;
 use common::serializers::h160::h160_to_lowercase_hex_string;
 use ethers::types::Address;
 use http::StatusCode;

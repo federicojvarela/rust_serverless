@@ -1,4 +1,4 @@
-use ana_tools::config_loader::ConfigLoader;
+use crate::config::ConfigLoader;
 use chrono::Utc;
 use common::serializers::h160::h160_to_lowercase_hex_string;
 use http::StatusCode;

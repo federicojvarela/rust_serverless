@@ -1,4 +1,4 @@
-use ana_tools::config_loader::ConfigLoader;
+use crate::config::ConfigLoader;
 use http::StatusCode;
 use rstest::{fixture, rstest};
 use serde::Deserialize;

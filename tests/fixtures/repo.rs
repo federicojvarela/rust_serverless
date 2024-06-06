@@ -1,4 +1,4 @@
-use ana_tools::config_loader::ConfigLoader;
+use crate::config::ConfigLoader;
 use common::aws_clients::dynamodb::get_dynamodb_client;
 use repositories::orders::orders_repository_impl::OrdersRepositoryImpl;
 use repositories::orders::OrdersRepository;

@@ -2,10 +2,10 @@ use eventbridge_connector::EventBridge;
 use eventbridge_connector::EventBridgeClient;
 
 use crate::config::aws_client_config::AwsClientConfig;
-use ana_tools::config_loader::ConfigLoader;
+use crate::config::ConfigLoader;
 
-pub fn get_event_bridge_client() -> impl EventBridge {
-    let config = ConfigLoader::load_default::<AwsClientConfig>();
+pub async fn get_event_bridge_client() -> impl EventBridge {
+    let config = ConfigLoader::load_default::<AwsClientConfig>().await;
 
     match config.region() {
         rusoto_core::Region::Custom { name, endpoint } => {

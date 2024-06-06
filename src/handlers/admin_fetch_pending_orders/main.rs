@@ -3,7 +3,7 @@ use std::sync::Arc;
 use anyhow::anyhow;
 use async_trait::async_trait;
 
-use ana_tools::config_loader::ConfigLoader;
+use crate::config::ConfigLoader;
 use common::aws_clients::dynamodb::get_dynamodb_client;
 use model::order::{OrderState, OrderSummary, OrderType};
 use mpc_signature_sm::result::error::OrchestrationError;

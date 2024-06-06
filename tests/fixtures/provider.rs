@@ -1,4 +1,4 @@
-use ana_tools::config_loader::ConfigLoader;
+use crate::config::ConfigLoader;
 use ethers::providers::{Http, Provider};
 use rstest::fixture;
 use serde::Deserialize;

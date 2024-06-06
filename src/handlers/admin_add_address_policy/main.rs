@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use ana_tools::config_loader::ConfigLoader;
+use crate::config::ConfigLoader;
 use anyhow::anyhow;
 use async_trait::async_trait;
 

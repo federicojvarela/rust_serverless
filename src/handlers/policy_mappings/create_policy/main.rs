@@ -1,6 +1,6 @@
 use crate::config::Config;
-use ana_tools::config_loader::ConfigLoader;
 use common::aws_clients::dynamodb::get_dynamodb_client;
+use common::config::ConfigLoader;
 use dtos::CreatePolicyMappingRequest;
 use http::{Response, StatusCode};
 use lambda_http::{run, service_fn, Error, Request};
@@ -31,7 +31,7 @@ pub struct State<APRR: AddressPolicyRegistryRepository> {
 http_lambda_main!(
     {
         let config = ConfigLoader::load_default::<Config>();
-        let dynamodb_client = get_dynamodb_client();
+        let dynamodb_client = get_dynamodb_client().await;
 
         let secrets_provider = get_secrets_provider().await;
         let maestro = maestro_bootstrap(secrets_provider)
@@ -40,7 +40,7 @@ http_lambda_main!(
 
         let address_policy_registry_repository =
             Arc::new(AddressPolicyRegistryRepositoryImpl::new(
-                config.address_policy_registry_table_name.clone(),
+                config.await.address_policy_registry_table_name.clone(),
                 dynamodb_client,
             ));
 

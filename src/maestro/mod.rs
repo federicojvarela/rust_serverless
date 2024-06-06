@@ -10,12 +10,12 @@ use self::{
 };
 use crate::rest::middlewares::AuthenticationMiddleware;
 use crate::result::error::Result;
-use ana_tools::config_loader::ConfigLoader;
+use common::config::ConfigLoader;
 use secrets_provider::SecretsProvider;
 use std::sync::Arc;
 
 pub async fn maestro_bootstrap(secrets_provider: impl SecretsProvider) -> Result<MaestroState> {
-    let maestro_config = ConfigLoader::load_default::<MaestroConfig>();
+    let maestro_config = ConfigLoader::load_default::<MaestroConfig>().await;
 
     let maestro_api_key = secrets_provider
         .find(&maestro_config.maestro_api_key_secret_name)

@@ -1,8 +1,8 @@
+use crate::config::ConfigLoader;
 use crate::fixtures::dynamodb::{dynamodb_fixture, DynamoDbFixture};
 use crate::fixtures::lambda::{fixture, LambdaFixture};
 use crate::helpers::dynamodb::{put_item, recreate_table};
 use crate::helpers::lambda::LambdaResponse;
-use ana_tools::config_loader::ConfigLoader;
 use chrono::Utc;
 use common::test_tools::http::constants::*;
 use ethers::types::Address;

@@ -2,7 +2,7 @@ use chrono::Utc;
 use http::StatusCode;
 use std::str::FromStr;
 
-use ana_tools::config_loader::ConfigLoader;
+use crate::config::ConfigLoader;
 
 use ethers::types::Address;
 use model::address_policy_registry::AddressPolicyRegistry;

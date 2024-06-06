@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use ana_tools::config_loader::ConfigLoader;
+use crate::config::ConfigLoader;
 use chrono::Utc;
 use rstest::{fixture, rstest};
 use serde::Deserialize;

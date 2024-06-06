@@ -3,7 +3,7 @@ use std::str::FromStr;
 use chrono::Utc;
 use http::StatusCode;
 
-use ana_tools::config_loader::ConfigLoader;
+use crate::config::ConfigLoader;
 
 use ethers::types::Address;
 use mpc_signature_sm::maestro::config::MaestroConfig;

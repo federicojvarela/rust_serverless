@@ -902,7 +902,6 @@ dependencies = [
 name = "common"
 version = "0.1.0"
 dependencies = [
- "ana-tools",
  "anyhow",
  "async-trait",
  "dotenv",
@@ -922,6 +921,7 @@ dependencies = [
  "secrets_provider",
  "serde",
  "serde_json",
+ "strum",
  "uuid 0.8.2",
 ]
 

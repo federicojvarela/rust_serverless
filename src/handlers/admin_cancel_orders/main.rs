@@ -7,8 +7,8 @@ use async_trait::async_trait;
 use uuid::Uuid;
 
 use crate::config::Config;
+use crate::config::ConfigLoader;
 use crate::dtos::{AdminCancelOrdersRequest, AdminCancelOrdersResponse};
-use ana_tools::config_loader::ConfigLoader;
 use common::aws_clients::dynamodb::get_dynamodb_client;
 use mpc_signature_sm::result::error::OrchestrationError;
 use mpc_signature_sm::{lambda_main, lambda_structure::lambda_trait::Lambda};

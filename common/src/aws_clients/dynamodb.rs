@@ -1,8 +1,8 @@
 use crate::config::aws_client_config::AwsClientConfig;
-use ana_tools::config_loader::ConfigLoader;
+use crate::config::ConfigLoader;
 use rusoto_dynamodb::DynamoDbClient;
 
-pub fn get_dynamodb_client() -> DynamoDbClient {
-    let config = ConfigLoader::load_default::<AwsClientConfig>();
+pub async fn get_dynamodb_client() -> DynamoDbClient {
+    let config = ConfigLoader::load_default::<AwsClientConfig>().await;
     DynamoDbClient::new(config.region())
 }

@@ -3,7 +3,7 @@ use std::str::FromStr;
 use ethers::types::Address;
 use http::StatusCode;
 
-use ana_tools::config_loader::ConfigLoader;
+use crate::config::ConfigLoader;
 
 use mpc_signature_sm::maestro::config::MaestroConfig;
 use repositories::address_policy_registry::{

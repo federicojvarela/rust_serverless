@@ -1,6 +1,6 @@
+use crate::config::ConfigLoader;
 use crate::fixtures::config::LambdaConfig;
 use crate::helpers::lambda::LambdaClient;
-use ana_tools::config_loader::ConfigLoader;
 use mpc_signature_sm::config::GlobalConfig;
 use rstest::fixture;
 

@@ -1,4 +1,4 @@
-use ana_tools::config_loader::ConfigLoader;
+use crate::config::ConfigLoader;
 use common::{aws_clients::sqs::get_sqs_client, config::aws_client_config::AwsClientConfig};
 use rstest::*;
 use rusoto_events::{EventBridge, EventBridgeClient, PutRuleRequest, PutTargetsRequest, Target};
