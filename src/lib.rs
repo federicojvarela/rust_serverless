@@ -2,7 +2,6 @@ pub mod authorization;
 pub mod blockchain;
 pub mod config;
 pub mod dtos;
-pub mod feature_flags;
 pub mod http;
 pub mod lambda_abstractions;
 pub mod lambda_structure;

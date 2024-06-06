@@ -7,7 +7,6 @@ use dtos::{Address, Chain, FetchAllPolicyResponse, MappingType};
 use http::StatusCode;
 use lambda_http::{run, service_fn, Error, Request};
 use model::address_policy_registry::{AddressPolicyRegistry, AddressPolicyRegistryType};
-use mpc_signature_sm::feature_flags::FeatureFlags;
 use mpc_signature_sm::http::errors::unknown_error_response;
 use mpc_signature_sm::http::lambda_proxy::LambdaProxyHttpResponse;
 use mpc_signature_sm::http_lambda_main;
@@ -52,7 +51,6 @@ http_lambda_main!(
 async fn fetch_all_policy(
     request: Request,
     state: &State<impl AddressPolicyRegistryRepository>,
-    _feature_flags: &FeatureFlags,
 ) -> HttpLambdaResponse {
     let client_id = request.extract_client_id()?;
 
@@ -128,7 +126,6 @@ mod tests {
     use http::{Request, StatusCode};
     use lambda_http::{Body, RequestExt};
     use model::address_policy_registry::{AddressPolicyRegistry, AddressPolicyRegistryType};
-    use mpc_signature_sm::feature_flags::FeatureFlags;
     use repositories::address_policy_registry::MockAddressPolicyRegistryRepository;
     use rstest::{fixture, rstest};
     use serde_json::json;
@@ -211,9 +208,7 @@ mod tests {
             ),
         };
 
-        let response = fetch_all_policy(request, &state, &FeatureFlags::default_in_memory())
-            .await
-            .unwrap();
+        let response = fetch_all_policy(request, &state).await.unwrap();
 
         assert_eq!(StatusCode::OK, response.status());
         let body: FetchAllPolicyResponse = serde_json::from_str(response.body()).unwrap();

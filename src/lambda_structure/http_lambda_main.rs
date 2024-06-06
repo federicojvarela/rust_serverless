@@ -57,7 +57,6 @@ macro_rules! http_lambda_main {
             use lambda_http::request::RequestContext;
             use lambda_http::{Body, RequestExt};
             use tracing_subscriber::{filter::LevelFilter, prelude::*, reload};
-            use mpc_signature_sm::feature_flags::FeatureFlags;
             use mpc_signature_sm::http::errors::unauthorized_error_response;
             use mpc_signature_sm::lambda_structure::http_lambda_main::{RequestExtractor};
             use tracing_log::LogTracer;
@@ -82,17 +81,11 @@ macro_rules! http_lambda_main {
 
             let service = |mut request: Request| async {
                 let secrets_provider = get_secrets_provider().await;
-                let feature_flags = FeatureFlags::new(secrets_provider).await;
-                let verbose_mode = feature_flags.get_verbose_mode_flag();
-                if verbose_mode {
-                    reload_handle
-                        .modify(|filter| *filter = LevelFilter::INFO)
-                        .unwrap_or_else(|e| tracing::error!(error= ?e, "{:?}", e));
-                } else {
+
                     reload_handle
                         .modify(|filter| *filter = LevelFilter::WARN)
                         .unwrap_or_else(|e| tracing::error!(error= ?e, "{:?}", e));
-                }
+
 
                 let payload = match request.body() {
                     Body::Empty => "No Payload".to_owned(),
@@ -114,7 +107,7 @@ macro_rules! http_lambda_main {
                 )*
 
                 let response: Result<Response<String>, Error> =
-                    match $handler(request, &persisted, &feature_flags).await {
+                    match $handler(request, &persisted).await {
                         Ok(response) => Ok(response),
                         Err(response) => Ok(response),
                     };

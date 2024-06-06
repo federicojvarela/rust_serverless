@@ -1,6 +1,4 @@
-use crate::feature_flags::FeatureFlags;
 use async_trait::async_trait;
-use common::aws_clients::secrets_manager::get_secrets_provider;
 use lambda_runtime::{Error, LambdaEvent};
 use serde::{de::DeserializeOwned, Serialize};
 use tracing_bunyan_formatter::{BunyanFormattingLayer, JsonStorageLayer};
@@ -46,18 +44,9 @@ pub trait Lambda {
 
         // Wrap our actual service call so we can pass in our connection data while preserving the expected Lambda signature.
         let service = move |event: LambdaEvent<Self::InputBody>| async move {
-            let secrets_provider = get_secrets_provider().await;
-            let feature_flags = FeatureFlags::new(secrets_provider).await;
-            let verbose_mode = feature_flags.get_verbose_mode_flag();
-            if verbose_mode {
-                reload_handle
-                    .modify(|filter| *filter = LevelFilter::INFO)
-                    .unwrap_or_else(|e| tracing::error!(error= ?e, "{:?}", e));
-            } else {
-                reload_handle
-                    .modify(|filter| *filter = LevelFilter::WARN)
-                    .unwrap_or_else(|e| tracing::error!(error= ?e, "{:?}", e));
-            }
+            reload_handle
+                .modify(|filter| *filter = LevelFilter::WARN)
+                .unwrap_or_else(|e| tracing::error!(error= ?e, "{:?}", e));
 
             Self::service(event, persisted).await
         };

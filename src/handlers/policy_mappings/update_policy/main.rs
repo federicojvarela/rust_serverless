@@ -6,7 +6,6 @@ use http::{Response, StatusCode};
 use lambda_http::{run, service_fn, Error, Request};
 use mpc_signature_sm::config::SupportedChain;
 use mpc_signature_sm::dtos::requests::address_or_default_path_param::AddressOrDefaultPathParam;
-use mpc_signature_sm::feature_flags::FeatureFlags;
 use mpc_signature_sm::http::errors::{unknown_error_response, validation_error_response};
 use mpc_signature_sm::http::lambda_proxy::LambdaProxyHttpResponse;
 use mpc_signature_sm::http_lambda_main;
@@ -61,7 +60,6 @@ http_lambda_main!(
 async fn update_policy(
     request: Request,
     state: &State<impl AddressPolicyRegistryRepository>,
-    _feature_flags: &FeatureFlags,
 ) -> HttpLambdaResponse {
     let body = request.extract_body::<UpdatePolicyMappingRequest>()?;
 
@@ -134,7 +132,7 @@ mod tests {
         aws_lambda_events::apigw::ApiGatewayProxyRequestContext, request::RequestContext, Body,
         Request, RequestExt,
     };
-    use mpc_signature_sm::feature_flags::FeatureFlags;
+
     use mpc_signature_sm::{
         dtos::responses::http_error::LambdaErrorResponse,
         maestro::{
@@ -246,9 +244,7 @@ mod tests {
             maestro: fixture.maestro,
         };
 
-        let response = update_policy(request, &state, &FeatureFlags::default_in_memory())
-            .await
-            .unwrap_err();
+        let response = update_policy(request, &state).await.unwrap_err();
 
         assert_eq!(StatusCode::BAD_REQUEST, response.status());
         let body: LambdaErrorResponse = serde_json::from_str(response.body()).unwrap();
@@ -271,9 +267,7 @@ mod tests {
             maestro: fixture.maestro,
         };
 
-        let response = update_policy(request, &state, &FeatureFlags::default_in_memory())
-            .await
-            .unwrap_err();
+        let response = update_policy(request, &state).await.unwrap_err();
 
         assert_eq!(StatusCode::BAD_REQUEST, response.status());
         let body: LambdaErrorResponse = serde_json::from_str(response.body()).unwrap();
@@ -311,9 +305,7 @@ mod tests {
             maestro: fixture.maestro,
         };
 
-        let response = update_policy(request, &state, &FeatureFlags::default_in_memory())
-            .await
-            .unwrap_err();
+        let response = update_policy(request, &state).await.unwrap_err();
 
         assert_eq!(StatusCode::BAD_REQUEST, response.status());
         let body: LambdaErrorResponse = serde_json::from_str(response.body()).unwrap();
@@ -356,9 +348,7 @@ mod tests {
             maestro: fixture.maestro,
         };
 
-        let response = update_policy(request, &state, &FeatureFlags::default_in_memory())
-            .await
-            .unwrap();
+        let response = update_policy(request, &state).await.unwrap();
 
         assert_eq!(StatusCode::OK, response.status());
     }

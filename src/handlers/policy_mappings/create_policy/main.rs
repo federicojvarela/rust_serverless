@@ -5,7 +5,6 @@ use dtos::CreatePolicyMappingRequest;
 use http::{Response, StatusCode};
 use lambda_http::{run, service_fn, Error, Request};
 use model::address_policy_registry::{AddressPolicyRegistry, AddressPolicyRegistryBuilder};
-use mpc_signature_sm::feature_flags::FeatureFlags;
 use mpc_signature_sm::http::errors::{unknown_error_response, validation_error_response};
 use mpc_signature_sm::http::lambda_proxy::LambdaProxyHttpResponse;
 use mpc_signature_sm::http_lambda_main;
@@ -57,7 +56,6 @@ http_lambda_main!(
 async fn create_policy(
     request: Request,
     state: &State<impl AddressPolicyRegistryRepository>,
-    _feature_flags: &FeatureFlags,
 ) -> HttpLambdaResponse {
     let body = request.extract_body::<CreatePolicyMappingRequest>()?;
     body.validate()
@@ -133,7 +131,6 @@ mod tests {
     };
     use http::{Request, StatusCode};
     use lambda_http::Body;
-    use mpc_signature_sm::feature_flags::FeatureFlags;
     use mpc_signature_sm::{
         dtos::responses::http_error::LambdaErrorResponse,
         maestro::{
@@ -220,9 +217,7 @@ mod tests {
             maestro: fixture.maestro,
         };
 
-        let response = create_policy(request, &state, &FeatureFlags::default_in_memory())
-            .await
-            .unwrap_err();
+        let response = create_policy(request, &state).await.unwrap_err();
 
         assert_eq!(StatusCode::BAD_REQUEST, response.status());
         let body: LambdaErrorResponse = serde_json::from_str(response.body()).unwrap();
@@ -251,9 +246,7 @@ mod tests {
             maestro: fixture.maestro,
         };
 
-        let response = create_policy(request, &state, &FeatureFlags::default_in_memory())
-            .await
-            .unwrap_err();
+        let response = create_policy(request, &state).await.unwrap_err();
 
         assert_eq!(StatusCode::BAD_REQUEST, response.status());
         let body: LambdaErrorResponse = serde_json::from_str(response.body()).unwrap();
@@ -293,9 +286,7 @@ mod tests {
             maestro: fixture.maestro,
         };
 
-        let response = create_policy(request, &state, &FeatureFlags::default_in_memory())
-            .await
-            .unwrap_err();
+        let response = create_policy(request, &state).await.unwrap_err();
 
         assert_eq!(StatusCode::BAD_REQUEST, response.status());
         let body: LambdaErrorResponse = serde_json::from_str(response.body()).unwrap();
@@ -340,9 +331,7 @@ mod tests {
             maestro: fixture.maestro,
         };
 
-        let response = create_policy(request, &state, &FeatureFlags::default_in_memory())
-            .await
-            .unwrap();
+        let response = create_policy(request, &state).await.unwrap();
 
         assert_eq!(StatusCode::CREATED, response.status());
     }

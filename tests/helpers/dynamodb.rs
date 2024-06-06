@@ -1,9 +1,5 @@
-use std::collections::HashMap;
-
-use model::order::OrderStatus;
 use rusoto_dynamodb::{
-    AttributeValue, CreateTableInput, DeleteTableInput, DynamoDb, DynamoDbClient, GetItemInput,
-    PutItemInput, QueryInput,
+    CreateTableInput, DeleteTableInput, DynamoDb, DynamoDbClient, GetItemInput, PutItemInput,
 };
 
 use serde::{de::DeserializeOwned, Serialize};
@@ -26,30 +22,6 @@ pub async fn get_item_from_db<K: Serialize, R: DeserializeOwned>(
     result.item.map(|r| {
         serde_dynamo::from_item::<_, R>(r).expect("Unable to deserialize row from DynamoDb")
     })
-}
-
-pub async fn query_from_db<K: Serialize>(
-    dynamodb_client: &DynamoDbClient,
-    table_name: &str,
-    key_condition_expression: String,
-    expression_attribute_values: K,
-) -> Option<HashMap<String, AttributeValue>> {
-    let expression_attribute_values = serde_dynamo::to_item(expression_attribute_values)
-        .expect("Unable to serialize DynamoDb key");
-
-    let input = QueryInput {
-        table_name: table_name.to_owned(),
-        key_condition_expression: Some(key_condition_expression),
-        expression_attribute_values: Some(expression_attribute_values),
-        ..QueryInput::default()
-    };
-
-    dynamodb_client
-        .query(input)
-        .await
-        .unwrap_or_else(|e| panic!("Unable to get rows from DynamoDb.{e:?}"))
-        .items
-        .and_then(|mut i| i.pop())
 }
 
 pub async fn put_item<I: Serialize>(dynamodb_client: &DynamoDbClient, table_name: &str, item: &I) {
@@ -83,33 +55,6 @@ pub async fn delete_table(client: &DynamoDbClient, table_name: String) {
 
     // TODO: Refactor this to use in Drop. This failure is ignored because there are no seeds and
     // no table to delete
-}
-
-// A method that receives an `order_id` and uses it to scan table `order_status` to search the field `replaces` and return the matching items
-pub async fn get_related_items(client: &DynamoDbClient, order_id: String) -> Vec<String> {
-    let mut related_items: Vec<String> = Vec::new();
-
-    let result = client
-        .scan(rusoto_dynamodb::ScanInput {
-            table_name: "order_status".to_string(),
-            filter_expression: Some("replaces = :order_id".to_string()),
-            expression_attribute_values: Some(std::collections::HashMap::from([(
-                ":order_id".to_string(),
-                rusoto_dynamodb::AttributeValue {
-                    s: Some(order_id.clone()),
-                    ..Default::default()
-                },
-            )])),
-            ..Default::default()
-        })
-        .await
-        .expect("Could not scan table");
-    for item in result.items.unwrap_or_default() {
-        let item: OrderStatus = serde_dynamo::from_item(item).unwrap();
-        related_items.push(item.order_id.to_string());
-    }
-
-    related_items
 }
 
 /// Recreates a DynamoDB table

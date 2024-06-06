@@ -6,7 +6,6 @@ use common::aws_clients::dynamodb::get_dynamodb_client;
 use ethers::types::H160;
 use http::StatusCode;
 use lambda_http::{run, service_fn, Error, Request};
-use mpc_signature_sm::feature_flags::FeatureFlags;
 use mpc_signature_sm::http::errors::unknown_error_response;
 use mpc_signature_sm::http::lambda_proxy::LambdaProxyHttpResponse;
 use mpc_signature_sm::http_lambda_main;
@@ -49,7 +48,6 @@ http_lambda_main!(
 async fn delete_policy(
     request: Request,
     state: &State<impl AddressPolicyRegistryRepository>,
-    _feature_flags: &FeatureFlags,
 ) -> HttpLambdaResponse {
     let chain_id: u64 = request.extract_path_param(CHAIN_ID_PATH_PARAM)?;
     let address: H160 = request.extract_path_param(ADDRESS_PATH_PARAM)?;
@@ -84,9 +82,7 @@ mod tests {
     };
     use http::{Request, StatusCode};
     use lambda_http::{Body, RequestExt};
-    use mpc_signature_sm::{
-        dtos::responses::http_error::LambdaErrorResponse, feature_flags::FeatureFlags,
-    };
+    use mpc_signature_sm::dtos::responses::http_error::LambdaErrorResponse;
     use repositories::address_policy_registry::MockAddressPolicyRegistryRepository;
     use rstest::{fixture, rstest};
     use serde_json::json;
@@ -129,9 +125,7 @@ mod tests {
             ),
         };
 
-        let response = delete_policy(request, &state, &FeatureFlags::default_in_memory())
-            .await
-            .unwrap_err();
+        let response = delete_policy(request, &state).await.unwrap_err();
 
         assert_eq!(StatusCode::BAD_REQUEST, response.status());
         let body: LambdaErrorResponse = serde_json::from_str(response.body()).unwrap();
@@ -156,9 +150,7 @@ mod tests {
             ),
         };
 
-        let response = delete_policy(request, &state, &FeatureFlags::default_in_memory())
-            .await
-            .unwrap();
+        let response = delete_policy(request, &state).await.unwrap();
 
         assert_eq!(StatusCode::OK, response.status());
     }
