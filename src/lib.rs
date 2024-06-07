@@ -1,4 +1,3 @@
-pub mod authorization;
 pub mod blockchain;
 pub mod config;
 pub mod dtos;
