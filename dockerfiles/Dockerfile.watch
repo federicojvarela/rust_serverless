@@ -1,8 +1,0 @@
-FROM 575679510244.dkr.ecr.us-west-2.amazonaws.com/mpc-signature-sm-base-image:latest
-
-WORKDIR /mpc-wallet
-ARG GH_TOKEN
-
-ADD . ./
-
-ENTRYPOINT ["cargo", "lambda", "watch", "--invoke-address", "0.0.0.0"]

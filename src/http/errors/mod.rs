@@ -1,5 +1,3 @@
-pub mod orders_repository_error;
-
 use crate::result::error::LambdaError;
 use lambda_http::Response;
 use reqwest::StatusCode;

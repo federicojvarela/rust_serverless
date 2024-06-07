@@ -1,8 +1,3 @@
-//! OrchestrationError is used as the main error that all of our lambdas can fail with.
-//! All other errors, such as AWS Steps errors, encountered during the execution of a state machine
-//! are mapped to this error.
-
-use crate::blockchain::providers::BlockchainProviderError;
 use lambda_runtime::Error as LambdaRuntimeError;
 use serde::{self, Deserialize};
 use serde_json::Value;
@@ -79,14 +74,6 @@ pub enum LambdaError {
     Unknown(#[source] anyhow::Error),
     #[error("{0}")]
     NotFound(String),
-}
-
-impl From<BlockchainProviderError> for LambdaError {
-    fn from(value: BlockchainProviderError) -> Self {
-        match value {
-            BlockchainProviderError::Unknown(e) => LambdaError::Unknown(e),
-        }
-    }
 }
 
 impl From<ValidationErrors> for OrchestrationError {
