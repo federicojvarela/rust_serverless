@@ -25,7 +25,5 @@ uuid = { version = "0.8.2", features = ["v4"] }
 secrets_provider = { git = "ssh://git@github.com/fortelabsinc/secrets_provider/", tag = "2.0.0", features = [
     "aws",
 ] }
-eventbridge_connector = { git = 'ssh://git@github.com/fortelabsinc/eventbridge-connector', tag = "0.1.0", features = [
-    "legacy-rusoto-aws",
-] }
+
 strum = "0.26.2"

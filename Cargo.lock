@@ -789,10 +789,8 @@ checksum = "41daef31d7a747c5c847246f36de49ced6f7403b4cdabc807a97b5cc184cda7a"
 dependencies = [
  "android-tzdata",
  "iana-time-zone",
- "js-sys",
  "num-traits",
  "serde",
- "wasm-bindgen",
  "windows-targets 0.52.0",
 ]
 
@@ -867,7 +865,6 @@ dependencies = [
  "dotenv",
  "envy",
  "ethers",
- "eventbridge_connector",
  "hex",
  "lambda_http",
  "mockall",
@@ -1643,22 +1640,6 @@ name = "event-listener"
 version = "2.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0206175f82b8d6bf6652ff7d71a1e27fd2e4efde587fd368662814d6ec1d9ce0"
-
-[[package]]
-name = "eventbridge_connector"
-version = "0.1.0"
-source = "git+ssh://git@github.com/fortelabsinc/eventbridge-connector?tag=0.1.0#0cdba0f56ca2c53f822eb587d4f378433beb7ae5"
-dependencies = [
- "async-trait",
- "chrono",
- "mockall",
- "regex",
- "rusoto_core",
- "rusoto_events",
- "serde_json",
- "thiserror",
- "tokio",
-]
 
 [[package]]
 name = "eyre"
@@ -2705,7 +2686,6 @@ dependencies = [
  "dotenv",
  "envy",
  "ethers",
- "eventbridge_connector",
  "hex",
  "http 0.2.11",
  "k256",
