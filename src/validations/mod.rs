@@ -1,3 +1,3 @@
 pub mod address;
 pub mod http;
-pub mod uuid;
+// pub mod uuid;
