@@ -4110,7 +4110,7 @@ dependencies = [
 [[package]]
 name = "secrets_provider"
 version = "2.0.0"
-source = "git+ssh://git@github.com/federicojvarela/secret_provider/#e1c870bdb4219a5d20dd2b0de29f62577baf9578"
+source = "git+ssh://git@github.com/federicojvarela/secrets_provider/#e1c870bdb4219a5d20dd2b0de29f62577baf9578"
 dependencies = [
  "async-trait",
  "aws-config",

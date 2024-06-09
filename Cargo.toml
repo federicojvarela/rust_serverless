@@ -39,7 +39,7 @@ rusoto_dynamodb = { version = "0.48.0", features = ["deserialize_structs"] }
 rusoto_stepfunctions = "0.48.0"
 rusoto_apigateway = "0.48.0"
 secp256k1 = "0.27.0"
-secrets_provider = { git = "ssh://git@github.com/federicojvarela/secret_provider/", features = [
+secrets_provider = { git = "ssh://git@github.com/federicojvarela/secrets_provider/", features = [
     "aws",
 ] }
 serde = "1.0.152"
